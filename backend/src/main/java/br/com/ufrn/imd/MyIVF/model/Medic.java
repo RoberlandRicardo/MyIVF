@@ -1,6 +1,8 @@
 package br.com.ufrn.imd.MyIVF.model;
 
 import java.util.Collection;
+import java.util.Date;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -10,6 +12,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -18,12 +21,36 @@ public class Medic implements UserDetails {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private UUID idPatiente;
+	private UUID idMedic;
 	private String name;
 	private String CPF;
 	private String email;
 	private String password;
+	private Date birthDate;
+	private String foto;
+	private String crm;
 	
+	@OneToMany(mappedBy="medic")
+    private Set<Treatment> treatments;
+	
+	public String getCrm() {
+		return crm;
+	}
+	public void setCrm(String crm) {
+		this.crm = crm;
+	}
+	public Date getBirthDate() {
+		return birthDate;
+	}
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+	public String getFoto() {
+		return foto;
+	}
+	public void setFoto(String foto) {
+		this.foto = foto;
+	}
 	public String getPassword() {
 		return password;
 	}
@@ -42,17 +69,23 @@ public class Medic implements UserDetails {
 	public void setCPF(String CPF) {
 		this.CPF = CPF;
 	}
-	public UUID getIdPatiente() {
-		return idPatiente;
+	public UUID getIdMedic() {
+		return idMedic;
 	}
-	public void setIdPatiente(UUID idPatiente) {
-		this.idPatiente = idPatiente;
+	public void setIdMedic(UUID idMedic) {
+		this.idMedic = idMedic;
 	}
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public Set<Treatment> getTreatments() {
+		return treatments;
+	}
+	public void setTreatments(Set<Treatment> treatments) {
+		this.treatments = treatments;
 	}
 	
 	@Override

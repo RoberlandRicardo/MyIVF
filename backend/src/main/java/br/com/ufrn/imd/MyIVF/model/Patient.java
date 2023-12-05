@@ -1,6 +1,8 @@
 package br.com.ufrn.imd.MyIVF.model;
 
 import java.util.Collection;
+import java.util.Date;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -10,6 +12,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -25,7 +30,24 @@ public class Patient implements UserDetails {
 	private String CPF;
 	private String email;
 	private String password;
+	private Date birthDate;
+	private String foto;
 	
+	@OneToMany(mappedBy="patient")
+    private Set<Treatment> treatments;
+	
+	public Date getBirthDate() {
+		return birthDate;
+	}
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+	public String getFoto() {
+		return foto;
+	}
+	public void setFoto(String foto) {
+		this.foto = foto;
+	}
 	public String getPassword() {
 		return password;
 	}
@@ -56,6 +78,13 @@ public class Patient implements UserDetails {
 	public void setCPF(String CPF) {
 		this.CPF = CPF;
 	}
+	public Set<Treatment> getTreatments() {
+		return treatments;
+	}
+	public void setTreatments(Set<Treatment> treatments) {
+		this.treatments = treatments;
+	}
+	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub

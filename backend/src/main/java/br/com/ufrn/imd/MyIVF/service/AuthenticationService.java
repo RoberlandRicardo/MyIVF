@@ -8,9 +8,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import br.com.ufrn.imd.MyIVF.dto.JWTAuthenticationResponse;
+import br.com.ufrn.imd.MyIVF.dto.AuthenticationReponseDTO;
 import br.com.ufrn.imd.MyIVF.dto.LoginDTO;
-import br.com.ufrn.imd.MyIVF.model.Patient;
 import br.com.ufrn.imd.MyIVF.repository.MedicRepository;
 import br.com.ufrn.imd.MyIVF.repository.PatientRepository;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +41,7 @@ public class AuthenticationService {
 //  }
 
 
-	  public JWTAuthenticationResponse login(LoginDTO request) {
+	  public AuthenticationReponseDTO login(LoginDTO request) {
 	      authenticationManager.authenticate(
 	              new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 	      UserDetails user = patientRepository.getByEmail(request.getEmail());
@@ -51,7 +50,7 @@ public class AuthenticationService {
 	      		if (user == null)
 	              throw new IllegalArgumentException("Invalid email or password.");
 	      var jwt = jwtService.generateToken(user);
-	      return JWTAuthenticationResponse.builder().token(jwt).build();
+	      return AuthenticationReponseDTO.builder().user(user).token(jwt).build();
 	  }
   
 }
